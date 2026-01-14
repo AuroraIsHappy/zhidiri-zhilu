@@ -17,6 +17,8 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { postsAPI } from '../services/api';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 const CreatePostPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -43,7 +45,7 @@ const CreatePostPage = () => {
         formDataObj.append('files', file);
       });
 
-      const response = await fetch('http://localhost:5000/api/posts', {
+      const response = await fetch(`${API_BASE_URL}/posts`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
