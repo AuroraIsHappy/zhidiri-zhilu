@@ -12,6 +12,11 @@ const fileRoutes = require('./routes/files');
 
 const app = express();
 
+// 健康检查 - 必须在所有中间件之前，用于 Railway 部署检测
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'OK', message: '支队日知录服务器运行正常' });
+});
+
 // 连接数据库
 connectDB();
 
@@ -28,11 +33,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 app.use('/api/comments', commentRoutes);
 app.use('/api/files', fileRoutes);
-
-// 健康检查
-app.get('/health', (req, res) => {
-  res.json({ status: 'OK', message: '支队日知录服务器运行正常' });
-});
 
 // 404处理
 app.use((req, res) => {
